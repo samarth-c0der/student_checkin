@@ -7,9 +7,9 @@ REQUIRED_FIELDS = {
     "student_sentiment"
 }
 
-def validate_function1_response(response_text: str) -> dict:
+def validate_checkin_decision_response(response_text: str) -> dict:
     """
-    Validates the JSON returned by Function 1.
+    Validates the JSON returned by the check-in decision function.
 
     Args:
         response_text: Raw JSON string returned by Ollama.

@@ -25,9 +25,9 @@ REQUIRED_STUDENT_STATE_FIELDS = {
 }
 
 
-def validate_function2_response(response_text: str) -> dict:
+def validate_checkin_generator_response(response_text: str) -> dict:
     """
-    Validates the JSON returned by Function 2.
+    Validates the JSON returned by the check-in generator function.
     """
 
     try:

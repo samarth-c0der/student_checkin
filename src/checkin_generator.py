@@ -1,34 +1,34 @@
-from src.function2_prompt_builder import build_function2_prompt
-from src.function2_response_parser import validate_function2_response
+from src.checkin_generator_prompt import build_checkin_generator_prompt
+from src.checkin_generator_parser import validate_checkin_generator_response
 from src.ollama_client import call_ollama
 
-DEBUG_FUNCTION2 = False
+DEBUG_CHECKIN_GENERATOR = False
 
-def generate_weekly_checkin(
+def generate_checkin(
     cleaned_messages: list,
     role_info: dict,
-    function1_result: dict,
+    checkin_decision_result: dict,
 ):
     """
     Generates the analysis and personalized weekly check-in.
     """
 
-    prompt = build_function2_prompt(
+    prompt = build_checkin_generator_prompt(
         cleaned_messages,
         role_info,
-        function1_result,
+        checkin_decision_result,
     )
 
-    if DEBUG_FUNCTION2:
-        print("\n========== FUNCTION 2 DEBUG ==========")
+    if DEBUG_CHECKIN_GENERATOR:
+        print("\n========== CHECK-IN GENERATOR DEBUG ==========")
 
         print(f"\nPrompt length: {len(prompt):,} characters")
 
         print("\n----- FIRST 800 CHARACTERS -----")
         print(prompt[:800])
 
-        print("\n----- FUNCTION 1 RESULT -----")
-        start = prompt.find("========== FUNCTION 1 RESULT ==========")
+        print("\n----- CHECK-IN DECISION RESULT -----")
+        start = prompt.find("========== CHECK-IN DECISION RESULT ==========")
         end = prompt.find("========== CONVERSATION ==========")
         print(prompt[start:end])
 
@@ -43,7 +43,7 @@ def generate_weekly_checkin(
 
     raw_response = call_ollama(prompt)
 
-    parsed_response = validate_function2_response(
+    parsed_response = validate_checkin_generator_response(
         raw_response
     )
 

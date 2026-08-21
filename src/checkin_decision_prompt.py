@@ -3,12 +3,12 @@ from pathlib import Path
 
 def load_prompt_template() -> str:
     """
-    Loads the Function 1 prompt template.
+    Loads the check-in decision prompt template.
     """
     prompt_path = (
         Path(__file__).resolve().parent.parent
         / "prompts"
-        / "function1_prompt.txt"
+        / "checkin_decision_prompt.txt"
     )
 
     with open(prompt_path, "r", encoding="utf-8") as file:
@@ -18,12 +18,12 @@ def load_prompt_template() -> str:
 PROMPT_TEMPLATE = load_prompt_template()
 
 
-def build_function1_prompt(
+def build_checkin_decision_prompt(
     cleaned_messages: list,
     role_info: dict,
 ) -> str:
     """
-    Builds the prompt for Function 1.
+    Builds the prompt for the check-in decision function.
     """
 
     student = role_info["student"]

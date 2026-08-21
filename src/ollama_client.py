@@ -33,9 +33,7 @@ def call_ollama(prompt: str) -> str:
             format="json",
             options={
                 "temperature": 0,
-                # Optional:
-                # "top_p": 1,
-                # "top_k": 1,
+
             },
             messages=[
                 {

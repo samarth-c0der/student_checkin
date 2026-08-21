@@ -3,12 +3,12 @@ from pathlib import Path
 
 def load_prompt_template() -> str:
     """
-    Loads the Function 2 prompt template.
+    Loads the check-in generator prompt template.
     """
     prompt_path = (
         Path(__file__).resolve().parent.parent
         / "prompts"
-        / "function2_prompt.txt"
+        / "checkin_generator_prompt.txt"
     )
 
     with open(prompt_path, "r", encoding="utf-8") as file:
@@ -18,13 +18,13 @@ def load_prompt_template() -> str:
 PROMPT_TEMPLATE = load_prompt_template()
 
 
-def build_function2_prompt(
+def build_checkin_generator_prompt(
     cleaned_messages: list,
     role_info: dict,
-    function1_result: dict,
+    checkin_decision_result: dict,
 ) -> str:
     """
-    Builds the prompt for Function 2.
+    Builds the prompt for the check-in generator function.
     """
 
     student = role_info["student"]
@@ -58,17 +58,17 @@ def build_function2_prompt(
 
 
     # =====================================================
-    # Function 1 Result
+    # Check-in Decision Result
     # =====================================================
 
-    prompt_parts.append("\n========== FUNCTION 1 RESULT ==========\n")
+    prompt_parts.append("\n========== CHECK-IN DECISION RESULT ==========\n")
 
     prompt_parts.append(
-        f"Generate Check-in:\n{function1_result['generate_checkin']}\n"
+        f"Generate Check-in:\n{checkin_decision_result['generate_checkin']}\n"
     )
 
     prompt_parts.append(
-        f"Student Sentiment:\n{function1_result['student_sentiment']}"
+        f"Student Sentiment:\n{checkin_decision_result['student_sentiment']}"
     )
 
     # =====================================================

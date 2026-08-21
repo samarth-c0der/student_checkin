@@ -11,8 +11,8 @@ from src.slack_reader import (
 )
 from src.snowflake_db import SnowflakeDB
 
-from src.function1 import analyze_weekly_conversation
-from src.function2 import generate_weekly_checkin
+from src.checkin_decision import decide_checkin
+from src.checkin_generator import generate_checkin
 
 
 import time
@@ -276,11 +276,11 @@ def run_pipeline() -> None:
             # ----------------------------------------------
             # Build AI prompt
             # ----------------------------------------------
-            print("\nRunning Function 1...\n")
+            print("\nRunning Check-in Decision...\n")
 
             llm_start = time.perf_counter()
 
-            result = analyze_weekly_conversation(
+            result = decide_checkin(
                 cleaned_messages=cleaned_messages,
                 role_info=role_info,
             )
@@ -317,30 +317,30 @@ def run_pipeline() -> None:
 
             llm_start = time.perf_counter()
 
-            function2_result = generate_weekly_checkin(
+            checkin_generation_result = generate_checkin(
                 cleaned_messages=cleaned_messages,
                 role_info=role_info,
-                function1_result=result,
+                checkin_decision_result=result,
             )
 
             llm_elapsed = time.perf_counter() - llm_start
 
             print(f"Function 2 completed in {llm_elapsed:.2f} seconds.\n")
 
-            parsed = function2_result["parsed_response"]
+            parsed = checkin_generation_result["parsed_response"]
 
             db.save_checkin_history(
                 student_id=student_id,
                 channel_id=channel_id,
-                prompt=function2_result["prompt"],
-                raw_response=function2_result["raw_response"],
+                prompt=checkin_generation_result["prompt"],
+                raw_response=checkin_generation_result["raw_response"],
                 analysis=parsed["analysis"],
                 checkin_message=parsed["checkin_message"],
             )
 
             print("Check-in saved to Snowflake.")
 
-            print("========== FUNCTION 2 OUTPUT ==========\n")
+            print("========== CHECK-IN GENERATOR OUTPUT ==========\n")
 
             print("========== ANALYSIS ==========\n")
 
